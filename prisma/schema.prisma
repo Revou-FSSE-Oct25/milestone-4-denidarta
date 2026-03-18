@@ -33,17 +33,17 @@ model User {
 }
 
 model Account {
-  id           String          @id @default(uuid())
-  name         String
-  type         AccountType
-  status       AccountStatus   @default(ACTIVE)
-  balance      Decimal         @default(0) @db.Decimal(19, 4)
-  currency     String          @default("USD")
-  createdAt    DateTime        @default(now())
-  updatedAt    DateTime        @updatedAt
-  userId       String
-  user         User            @relation(fields: [userId], references: [id])
-  transactions Transaction[]
+  id            String        @id @default(uuid())
+  accountNumber Int
+  name          String
+  status        AccountStatus @default(ACTIVE)
+  balance       Decimal       @default(0) @db.Decimal(19, 4)
+  currency      String        @default("USD")
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  userId        String
+  user          User          @relation(fields: [userId], references: [id])
+  transactions  Transaction[]
 }
 
 model Transaction {

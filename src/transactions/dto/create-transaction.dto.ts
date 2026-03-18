@@ -3,7 +3,7 @@ import { TransactionType } from '@prisma/client';
 
 export class CreateTransactionDto {
   @Matches(/^\d+(\.\d+)?$/, {
-    message: 'amount must be a positive number string',
+    message: 'amount must be a positive number',
   })
   amount: string;
 
