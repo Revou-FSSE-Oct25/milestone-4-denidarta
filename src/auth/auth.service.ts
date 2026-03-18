@@ -6,6 +6,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
+import { UserRole } from '@prisma/client';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 
@@ -24,7 +25,12 @@ export class AuthService {
 
     const hash = await bcrypt.hash(dto.password, 10);
     const user = await this.prisma.user.create({
-      data: { email: dto.email, password: hash, name: dto.name },
+      data: {
+        email: dto.email,
+        password: hash,
+        name: dto.name,
+        role: UserRole.USER,
+      },
     });
 
     return this.signToken(user.id, user.email);

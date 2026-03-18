@@ -11,8 +11,9 @@ export class AccountsService {
   constructor(private prisma: PrismaService) {}
 
   create(userId: string, dto: CreateAccountDto) {
+    const accountNumber = Math.floor(1000000000 + Math.random() * 9000000000);
     return this.prisma.account.create({
-      data: { ...dto, userId },
+      data: { ...dto, userId, accountNumber },
     });
   }
 
