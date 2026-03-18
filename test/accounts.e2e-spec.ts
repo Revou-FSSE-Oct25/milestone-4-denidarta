@@ -69,6 +69,22 @@ describe('Accounts (e2e)', () => {
     expect(res.status).toBe(404);
   });
 
+  it('GET /accounts/:id - returns 403 for account owned by another user', async () => {
+    // Register a second user
+    await request(app.getHttpServer())
+      .post('/auth/register')
+      .send({ email: 'other@example.com', password: 'password123', name: 'Other User' });
+    const otherRes = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ email: 'other@example.com', password: 'password123' });
+    const otherToken = otherRes.body.access_token;
+
+    const res = await request(app.getHttpServer())
+      .get(`/accounts/${accountId}`)
+      .set('Authorization', `Bearer ${otherToken}`);
+    expect(res.status).toBe(403);
+  });
+
   it('DELETE /accounts/:id - deletes the account', async () => {
     const res = await request(app.getHttpServer())
       .delete(`/accounts/${accountId}`)

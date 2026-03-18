@@ -92,4 +92,19 @@ describe('Transactions (e2e)', () => {
       .set('Authorization', `Bearer ${token}`);
     expect(res.status).toBe(404);
   });
+
+  it('GET /transactions/:id - returns 403 for transaction owned by another user', async () => {
+    await request(app.getHttpServer())
+      .post('/auth/register')
+      .send({ email: 'txother@example.com', password: 'password123', name: 'Other User' });
+    const otherRes = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ email: 'txother@example.com', password: 'password123' });
+    const otherToken = otherRes.body.access_token;
+
+    const res = await request(app.getHttpServer())
+      .get(`/transactions/${transactionId}`)
+      .set('Authorization', `Bearer ${otherToken}`);
+    expect(res.status).toBe(403);
+  });
 });

@@ -12,14 +12,15 @@ export class TransactionsService {
   ) {}
 
   async create(accountId: string, userId: string, dto: CreateTransactionDto) {
-    // Verify ownership
-    await this.accounts.findOne(accountId, userId);
-
     const balanceDelta = dto.type === TransactionType.CREDIT
       ? new Prisma.Decimal(dto.amount)
       : new Prisma.Decimal(dto.amount).negated();
 
     return this.prisma.$transaction(async (tx) => {
+      const account = await tx.account.findUnique({ where: { id: accountId } });
+      if (!account) throw new NotFoundException('Account not found');
+      if (account.userId !== userId) throw new ForbiddenException();
+
       const transaction = await tx.transaction.create({
         data: { accountId, amount: dto.amount, type: dto.type, description: dto.description },
       });
@@ -44,10 +45,12 @@ export class TransactionsService {
   async findOne(id: string, userId: string) {
     const transaction = await this.prisma.transaction.findUnique({
       where: { id },
-      include: { account: true },
+      include: { account: { select: { userId: true } } },
     });
     if (!transaction) throw new NotFoundException('Transaction not found');
     if (transaction.account.userId !== userId) throw new ForbiddenException();
-    return transaction;
+    // Return transaction without the account field
+    const { account: _, ...result } = transaction;
+    return result;
   }
 }
