@@ -6,11 +6,6 @@ datasource db {
   provider = "postgresql"
 }
 
-enum AccountType {
-  CHECKING
-  SAVINGS
-}
-
 enum AccountStatus {
   ACTIVE
   FROZEN
@@ -22,6 +17,11 @@ enum TransactionType {
   DEBIT
 }
 
+enum UserRole {
+  USER
+  ADMIN
+}
+
 model User {
   id        String    @id @default(uuid())
   email     String    @unique
@@ -29,6 +29,7 @@ model User {
   name      String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  role      UserRole
   accounts  Account[]
 }
 
@@ -38,7 +39,6 @@ model Account {
   name          String
   status        AccountStatus @default(ACTIVE)
   balance       Decimal       @default(0) @db.Decimal(19, 4)
-  currency      String        @default("USD")
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   userId        String
