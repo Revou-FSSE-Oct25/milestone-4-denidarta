@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
+import { CreateAccountDto } from './dto/create-account.dto';
+import { UpdateAccountDto } from './dto/update-account.dto';
 
 const selectedData = {
 	id: true,
@@ -13,22 +15,40 @@ const selectedData = {
 export class AccountsRepository {
 	constructor(private prisma: PrismaService) {}
 
-	findAll() {
+	create(userId: string, dto: CreateAccountDto) {
+		return this.prisma.account.create({ data: { ...dto, userId } });
+	}
+
+	findAllByUser(userId: string) {
 		return this.prisma.account.findMany({
+			where: { userId },
 			select: selectedData,
 		});
 	}
 
-	finById(id: string) {
+	findById(id: string) {
 		return this.prisma.account.findUnique({
 			where: { id },
 			select: selectedData,
 		});
 	}
-	findByNumber() {}
-	create() {}
-	// Only update account status is allowed.
-	update() {}
+
+	findByNumber(accountNumber: number) {
+		return this.prisma.account.findUnique({
+			where: { accountNumber },
+			select: {
+				accountNumber: true,
+				user: {
+					select: { name: true },
+				},
+			},
+		});
+	}
+
+	update(id: string, data: UpdateAccountDto) {
+		return this.prisma.account.update({ where: { id }, data });
+	}
+
 	delete(id: string) {
 		return this.prisma.account.delete({ where: { id } });
 	}
