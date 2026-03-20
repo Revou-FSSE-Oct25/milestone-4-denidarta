@@ -44,6 +44,18 @@ export class UsersRepository {
 		});
 	}
 
+	findByEmailWithPassword(email: string) {
+		return this.prisma.user.findUnique({
+			where: { email },
+			select: {
+				id: true,
+				email: true,
+				password: true,
+				role: true,
+			},
+		});
+	}
+
 	create(data: {
 		email: string;
 		password: string;
