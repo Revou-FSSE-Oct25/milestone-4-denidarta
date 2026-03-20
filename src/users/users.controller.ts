@@ -29,7 +29,7 @@ export class UsersController {
 	update(
 		@Param('id') id: string,
 		@Body() dto: UpdateUserDto,
-		@Request() req: { user: { userId: string; role: UserRole } },
+		@Request() req: { user: { userId: string; role: UserRole } }
 	) {
 		if (req.user.userId !== id && req.user.role !== UserRole.ADMIN) {
 			throw new ForbiddenException('Forbidden Access');
@@ -41,11 +41,11 @@ export class UsersController {
 	@Delete(':id')
 	delete(
 		@Param('id') id: string,
-		@Request() req: { user: { role: UserRole } },
+		@Request() req: { user: { role: UserRole } }
 	) {
 		if (req.user.role !== UserRole.ADMIN)
 			throw new ForbiddenException(
-				'You are not allowed to perform this action!',
+				'You are not allowed to perform this action!'
 			);
 		return this.users.delete(id);
 	}

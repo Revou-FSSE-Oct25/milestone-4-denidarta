@@ -18,7 +18,7 @@ describe('Transactions (e2e)', () => {
 
 		app = moduleFixture.createNestApplication();
 		app.useGlobalPipes(
-			new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
+			new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })
 		);
 		prisma = app.get(PrismaService);
 		await app.init();

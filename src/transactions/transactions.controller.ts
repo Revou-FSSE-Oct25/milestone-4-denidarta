@@ -21,7 +21,7 @@ export class TransactionsController {
 	create(
 		@Param('accountId') accountId: string,
 		@Request() req: any,
-		@Body() dto: CreateTransactionDto,
+		@Body() dto: CreateTransactionDto
 	) {
 		return this.transactions.create(accountId, req.user.userId, dto);
 	}
@@ -31,13 +31,13 @@ export class TransactionsController {
 		@Param('accountId') accountId: string,
 		@Request() req: any,
 		@Query('page') page?: string,
-		@Query('limit') limit?: string,
+		@Query('limit') limit?: string
 	) {
 		return this.transactions.findAll(
 			accountId,
 			req.user.userId,
 			Number(page) || 1,
-			Number(limit) || 20,
+			Number(limit) || 20
 		);
 	}
 
