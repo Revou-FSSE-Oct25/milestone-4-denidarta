@@ -26,7 +26,7 @@ export class AccountsService {
 		return { data, total, page, limit };
 	}
 
-	async findOne(id: string, userId: string) {
+	async findById(id: string, userId: string) {
 		const account = await this.prisma.account.findUnique({ where: { id } });
 		if (!account) throw new NotFoundException('Account not found');
 		if (account.userId !== userId) throw new ForbiddenException();
@@ -34,7 +34,7 @@ export class AccountsService {
 	}
 
 	async remove(id: string, userId: string) {
-		await this.findOne(id, userId);
+		await this.findById(id, userId);
 		return this.prisma.account.delete({ where: { id } });
 	}
 }

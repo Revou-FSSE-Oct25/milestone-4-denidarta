@@ -27,18 +27,18 @@ export class AccountsController {
 	findAll(
 		@Request() req: any,
 		@Query('page') page?: string,
-		@Query('limit') limit?: string,
+		@Query('limit') limit?: string
 	) {
 		return this.accounts.findAll(
 			req.user.userId,
 			Number(page) || 1,
-			Number(limit) || 20,
+			Number(limit) || 20
 		);
 	}
 
 	@Get(':id')
 	findOne(@Param('id') id: string, @Request() req: any) {
-		return this.accounts.findOne(id, req.user.userId);
+		return this.accounts.findById(id, req.user.userId);
 	}
 
 	@Delete(':id')

@@ -13,4 +13,12 @@ export class CreateTransactionDto {
 	@IsOptional()
 	@IsString()
 	description?: string;
+
+	@IsOptional()
+	@IsString()
+	sourceAccountId?: string;
+
+	@IsOptional()
+	@IsString()
+	destinaionAccountId?: string;
 }

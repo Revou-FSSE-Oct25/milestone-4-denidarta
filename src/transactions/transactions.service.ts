@@ -12,7 +12,7 @@ import { CreateTransactionDto } from './dto/create-transaction.dto';
 export class TransactionsService {
 	constructor(
 		private prisma: PrismaService,
-		private accounts: AccountsService,
+		private accounts: AccountsService
 	) {}
 
 	async create(accountId: string, userId: string, dto: CreateTransactionDto) {
@@ -43,7 +43,7 @@ export class TransactionsService {
 	}
 
 	async findAll(accountId: string, userId: string, page = 1, limit = 20) {
-		await this.accounts.findOne(accountId, userId);
+		await this.accounts.findById(accountId, userId);
 		const skip = (page - 1) * limit;
 		const [data, total] = await Promise.all([
 			this.prisma.transaction.findMany({
