@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import { UpdateUserDto } from './dto/update-user.dto';
+import type {
+	UpdateUserData,
+	UserEntity,
+	UserWithCredentials,
+} from 'src/types/index.type';
 
 const userSelect = {
 	id: true,
@@ -23,22 +27,22 @@ export class UsersRepository {
 		return this.prisma.user.create({ data });
 	}
 
-	findAll() {
+	findAll(): Promise<UserEntity[]> {
 		return this.prisma.user.findMany({ select: userSelect });
 	}
 
-	findById(id: string) {
+	findById(id: string): Promise<UserEntity | null> {
 		return this.prisma.user.findUnique({ where: { id }, select: userSelect });
 	}
 
-	findByEmail(email: string) {
+	findByEmail(email: string): Promise<UserEntity | null> {
 		return this.prisma.user.findUnique({
 			where: { email },
 			select: userSelect,
 		});
 	}
 
-	findByEmailWithPassword(email: string) {
+	findByEmailWithPassword(email: string): Promise<UserWithCredentials | null> {
 		return this.prisma.user.findUnique({
 			where: { email },
 			select: {
@@ -49,11 +53,11 @@ export class UsersRepository {
 		});
 	}
 
-	update(id: string, data: UpdateUserDto) {
-		return this.prisma.user.update({ where: { id }, data });
+	update(id: string, data: UpdateUserData): Promise<UserEntity> {
+		return this.prisma.user.update({ where: { id }, data, select: userSelect });
 	}
 
-	delete(id: string) {
-		return this.prisma.user.delete({ where: { id } });
+	delete(id: string): Promise<UserEntity> {
+		return this.prisma.user.delete({ where: { id }, select: userSelect });
 	}
 }

@@ -14,6 +14,8 @@ const mockUser = {
 
 const mockUsersRepository = {
 	findById: jest.fn(),
+	findByEmail: jest.fn(),
+	findByAccountNumber: jest.fn(),
 	update: jest.fn(),
 	delete: jest.fn(),
 };
@@ -52,6 +54,27 @@ describe('UsersService', () => {
 			await expect(service.findById('nonexistent')).rejects.toThrow(
 				NotFoundException
 			);
+		});
+	});
+
+	describe('find user by their email', () => {
+		it('should return user when found', async () => {
+			repository.findByEmail.mockResolvedValue(mockUser);
+
+			const result = await service.findByEmail('john@example.com');
+
+			expect(result).toEqual({ email: mockUser.email });
+			expect(repository.findByEmail).toHaveBeenCalledWith({
+				where: { email: 'john@example.com' },
+			});
+		});
+
+		it('should throw NotFoundException when user not found', async () => {
+			repository.findByEmail.mockResolvedValue(null);
+
+			await expect(
+				service.findByEmail('nonexistent@example.com')
+			).rejects.toThrow(NotFoundException);
 		});
 	});
 

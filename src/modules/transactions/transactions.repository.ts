@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
+import type { TransactionEntity } from 'src/types/index.type';
 
 @Injectable()
 export class TransactionsRepository {
 	constructor(private readonly prisma: PrismaService) {}
 
-	async create(dto: CreateTransactionDto) {
+	async create(dto: CreateTransactionDto): Promise<TransactionEntity> {
 		return this.prisma.$transaction(async (trx) => {
 			const transaction = await trx.transaction.create({
 				data: {
@@ -36,17 +37,10 @@ export class TransactionsRepository {
 		});
 	}
 
-	findAll() {
-		return this.prisma.transaction.findMany({
-			select: {
-				id: true,
-				amount: true,
-				type: true,
-				description: true,
-				createdAt: true,
-				sourceAccount: true,
-				destinationAccount: true,
-			},
-		});
+	findAll(): Promise<TransactionEntity[]> {
+		return this.prisma.transaction.findMany();
+	}
+	findOne(id: string): Promise<TransactionEntity | null> {
+		return this.prisma.transaction.findUnique({ where: { id } });
 	}
 }

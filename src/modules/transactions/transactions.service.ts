@@ -7,6 +7,7 @@ import { Prisma, TransactionType } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 import { AccountsService } from '../accounts/accounts.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
+import type { PaginatedResult, TransactionEntity } from 'src/types/index.type';
 
 @Injectable()
 export class TransactionsService {
@@ -15,7 +16,11 @@ export class TransactionsService {
 		private accounts: AccountsService
 	) {}
 
-	async create(accountId: string, userId: string, dto: CreateTransactionDto) {
+	async create(
+		accountId: string,
+		userId: string,
+		dto: CreateTransactionDto
+	): Promise<TransactionEntity> {
 		if (dto.type === TransactionType.DEPOSIT) {
 			return this.createDeposit(accountId, userId, dto);
 		} else if (dto.type === TransactionType.WITHDRAWAL) {
@@ -41,7 +46,7 @@ export class TransactionsService {
 		accountId: string,
 		userId: string,
 		dto: CreateTransactionDto
-	) {
+	): Promise<TransactionEntity> {
 		return this.prisma.$transaction(async (tx) => {
 			await this.findOwnedAccount(tx, accountId, userId);
 
@@ -65,7 +70,7 @@ export class TransactionsService {
 		accountId: string,
 		userId: string,
 		dto: CreateTransactionDto
-	) {
+	): Promise<TransactionEntity> {
 		return this.prisma.$transaction(async (tx) => {
 			await this.findOwnedAccount(tx, accountId, userId);
 
@@ -89,7 +94,7 @@ export class TransactionsService {
 		accountId: string,
 		userId: string,
 		dto: CreateTransactionDto
-	) {
+	): Promise<TransactionEntity> {
 		return this.prisma.$transaction(async (tx) => {
 			await this.findOwnedAccount(tx, accountId, userId, 'Source account');
 
@@ -120,7 +125,12 @@ export class TransactionsService {
 		});
 	}
 
-	async findAll(accountId: string, userId: string, page = 1, limit = 20) {
+	async findAll(
+		accountId: string,
+		userId: string,
+		page = 1,
+		limit = 20
+	): Promise<PaginatedResult<TransactionEntity>> {
 		await this.accounts.findById(accountId, userId);
 		const skip = (page - 1) * limit;
 		const accountFilter = {
@@ -138,7 +148,7 @@ export class TransactionsService {
 		return { data, total, page, limit };
 	}
 
-	async findOne(id: string, userId: string) {
+	async findOne(id: string, userId: string): Promise<TransactionEntity> {
 		const transaction = await this.prisma.transaction.findUnique({
 			where: { id },
 			include: {

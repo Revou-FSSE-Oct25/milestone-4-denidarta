@@ -6,6 +6,7 @@ import {
 import { PrismaService } from '../../prisma/prisma.service';
 import { AccountsRepository } from './accounts.repository';
 import { CreateAccountDto } from './dto/create-account.dto';
+import type { AccountEntity, PaginatedResult } from 'src/types/index.type';
 
 @Injectable()
 export class AccountsService {
@@ -14,7 +15,7 @@ export class AccountsService {
 		private accountsRepository: AccountsRepository
 	) {}
 
-	async create(userId: string, dto: CreateAccountDto) {
+	async create(userId: string, dto: CreateAccountDto): Promise<AccountEntity> {
 		let accountNumber: number;
 		let exist = true;
 		while (exist) {
@@ -28,7 +29,11 @@ export class AccountsService {
 		});
 	}
 
-	async findAll(userId: string, page = 1, limit = 20) {
+	async findAll(
+		userId: string,
+		page = 1,
+		limit = 20
+	): Promise<PaginatedResult<AccountEntity>> {
 		const skip = (page - 1) * limit;
 		const [data, total] = await this.accountsRepository.findAllByUser(
 			userId,
@@ -38,7 +43,7 @@ export class AccountsService {
 		return { data, total, page, limit };
 	}
 
-	async findById(id: string, userId: string) {
+	async findById(id: string, userId: string): Promise<AccountEntity> {
 		const account = await this.prisma.account.findUnique({ where: { id } });
 		if (!account) throw new NotFoundException('Account not found');
 		if (account.userId !== userId)
@@ -46,17 +51,19 @@ export class AccountsService {
 		return account;
 	}
 
-	async findByAccountNumber(accountNumber: number) {
+	async findByAccountNumber(
+		accountNumber: number
+	): Promise<AccountEntity | null> {
 		return this.prisma.account.findUnique({
 			where: { accountNumber },
 		});
 	}
 
-	async update(id: string, userId: string) {
+	async update(id: string, userId: string): Promise<void> {
 		await this.findById(id, userId);
 	}
 
-	async remove(id: string, userId: string) {
+	async remove(id: string, userId: string): Promise<AccountEntity> {
 		await this.findById(id, userId);
 		return this.prisma.account.delete({ where: { id } });
 	}

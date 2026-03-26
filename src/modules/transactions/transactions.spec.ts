@@ -184,8 +184,6 @@ describe('TransactionsService', () => {
 		});
 	});
 
-	// ─── findOne ──────────────────────────────────────────────────────────────
-
 	describe('find one transaction', () => {
 		it('should throw NotFoundException when transaction does not exist', async () => {
 			prisma.transaction.findUnique.mockResolvedValue(null);

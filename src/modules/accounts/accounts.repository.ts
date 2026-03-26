@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateAccountDto } from './dto/create-account.dto';
-import { UpdateAccountDto } from './dto/update-account.dto';
+import type { AccountEntity, UpdateAccountData } from 'src/types/index.type';
 
 const selectedData = {
 	id: true,
 	accountNumber: true,
+	status: true,
 	balance: true,
 	createdAt: true,
 	updatedAt: true,
@@ -16,11 +17,18 @@ const selectedData = {
 export class AccountsRepository {
 	constructor(private prisma: PrismaService) {}
 
-	create(userId: string, dto: CreateAccountDto) {
-		return this.prisma.account.create({ data: { ...dto, userId } });
+	create(userId: string, dto: CreateAccountDto): Promise<AccountEntity> {
+		return this.prisma.account.create({
+			data: { ...dto, userId },
+			select: selectedData,
+		});
 	}
 
-	findAllByUser(userId: string, skip: number, take: number) {
+	findAllByUser(
+		userId: string,
+		skip: number,
+		take: number
+	): Promise<[AccountEntity[], number]> {
 		return Promise.all([
 			this.prisma.account.findMany({
 				where: { userId },
@@ -32,7 +40,7 @@ export class AccountsRepository {
 		]);
 	}
 
-	findById(id: string) {
+	findById(id: string): Promise<AccountEntity | null> {
 		return this.prisma.account.findUnique({
 			where: { id },
 			select: selectedData,
@@ -51,11 +59,15 @@ export class AccountsRepository {
 		});
 	}
 
-	update(id: string, data: UpdateAccountDto) {
-		return this.prisma.account.update({ where: { id }, data });
+	update(id: string, data: UpdateAccountData): Promise<AccountEntity> {
+		return this.prisma.account.update({
+			where: { id },
+			data,
+			select: selectedData,
+		});
 	}
 
-	delete(id: string) {
-		return this.prisma.account.delete({ where: { id } });
+	delete(id: string): Promise<AccountEntity> {
+		return this.prisma.account.delete({ where: { id }, select: selectedData });
 	}
 }
