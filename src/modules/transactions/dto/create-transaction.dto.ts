@@ -11,7 +11,7 @@ import { Decimal } from '@prisma/client/runtime/client';
 import { TransactionType } from '@prisma/client';
 
 export class CreateTransactionDto {
-	@ApiProperty({ example: '100.00', description: 'Transaction amount' })
+	@ApiProperty({ example: '100.00', description: 'Transaction amount', type: String })
 	@Transform(({ value }: { value: string }) => new Decimal(value))
 	@IsNotEmpty()
 	amount: Decimal;
