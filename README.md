@@ -4,8 +4,8 @@ A secure and scalable banking API built with NestJS and Prisma for managing user
 
 ## 🌐 Production
 
-- **Base URL**: http://43.129.39.87:3000/api/v1
-- **Swagger Docs**: http://43.129.39.87:3000/api/docs
+- **Base URL**: https://ddarta.web.id/api/v1
+- **Swagger Docs**: https://ddarta.web.id/api/docs
 
 ## 📋 Overview
 
@@ -133,7 +133,7 @@ npm run start:prod
 
 Interactive Swagger documentation:
 - **Local**: `http://localhost:3000/api/docs`
-- **Production**: http://43.129.39.87:3000/api/docs
+- **Production**: https://ddarta.web.id/api/docs
 
 ### Authentication Endpoints
 | Method | Endpoint | Description |
@@ -271,7 +271,8 @@ This project is deployed on an **Ubuntu VPS** using Docker Compose, with the dat
 - **Public IP**: `43.129.39.87`
 - **OS**: Ubuntu
 - **Containerization**: Docker + Docker Compose
-- **Note**: This server does not have an SSL/HTTPS certificate. All traffic is served over HTTP.
+- **Domain**: `ddarta.web.id`
+- **SSL**: HTTPS enabled via Let's Encrypt (auto-renews)
 
 ### Deploy to VPS
 
