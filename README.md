@@ -5,7 +5,7 @@ A secure and scalable banking API built with NestJS and Prisma for managing user
 ## 🌐 Production
 
 - **Base URL**: https://ddarta.web.id/api/v1
-- **Swagger Docs**: https://ddarta.web.id/api/docs
+- **Swagger Docs**: https://ddarta.web.id
 
 ## 📋 Overview
 
@@ -133,7 +133,7 @@ npm run start:prod
 
 Interactive Swagger documentation:
 - **Local**: `http://localhost:3000/api/docs`
-- **Production**: https://ddarta.web.id/api/docs
+- **Production**: https://ddarta.web.id
 
 ### Authentication Endpoints
 | Method | Endpoint | Description |
