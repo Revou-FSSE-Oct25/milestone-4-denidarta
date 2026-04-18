@@ -3,7 +3,7 @@ import { UsersRepository } from './users.repository';
 import { PrismaService } from '../../prisma/prisma.service';
 import { mockPrismaService } from '../../prisma/__mocks__/prisma.service';
 import { UserRole } from '@prisma/client';
-import { userSelect } from './users.repository';
+import { payloadFormat } from './users.repository';
 
 const mockUser = {
 	id: 1,
@@ -73,7 +73,7 @@ describe('UsersRepository', () => {
 			expect(result).toEqual(mockUser);
 			expect(mockPrismaService.user.findUnique).toHaveBeenCalledWith({
 				where: { id: 1 },
-				select: userSelect,
+				select: payloadFormat,
 			});
 		});
 
@@ -95,7 +95,7 @@ describe('UsersRepository', () => {
 			expect(result).toEqual(mockUser);
 			expect(mockPrismaService.user.findUnique).toHaveBeenCalledWith({
 				where: { email: 'john@mail.com' },
-				select: userSelect,
+				select: payloadFormat,
 			});
 		});
 
@@ -119,7 +119,7 @@ describe('UsersRepository', () => {
 			expect(mockPrismaService.user.update).toHaveBeenCalledWith({
 				where: { id: 1 },
 				data: { name: 'Jane Doe' },
-				select: userSelect,
+				select: payloadFormat,
 			});
 		});
 	});
@@ -131,7 +131,7 @@ describe('UsersRepository', () => {
 			});
 			mockPrismaService.user.delete.mockResolvedValue(mockUser);
 
-			const result = await repository.delete(1);
+			const result = await repository.softDelete(1);
 
 			expect(result).toEqual(mockUser);
 			expect(mockPrismaService.account.deleteMany).toHaveBeenCalledWith({
@@ -139,7 +139,7 @@ describe('UsersRepository', () => {
 			});
 			expect(mockPrismaService.user.delete).toHaveBeenCalledWith({
 				where: { id: 1 },
-				select: userSelect,
+				select: payloadFormat,
 			});
 		});
 	});

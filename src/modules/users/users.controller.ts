@@ -47,16 +47,18 @@ export class UsersController {
 	}
 
 	@Get('myprofile')
-	@ApiOperation({ summary: 'Get current logged in user' })
+	@ApiOperation({ summary: 'Get current logged in user with accounts' })
 	getMyProfile(@Request() req: { user: { userId: number } }) {
-		return this.users.findById(req.user.userId);
+		return this.users.findProfile(req.user.userId);
 	}
 
 	@Get(':id')
-	@Roles(UserRole.ADMIN)
-	@ApiOperation({ summary: 'Get user by id (Admin only)' })
-	findOne(@Param('id', ParseIntPipe) id: number) {
-		return this.users.findById(id);
+	@ApiOperation({ summary: 'Get user by id (Admin only or user owner)' })
+	findOne(
+		@Param('id', ParseIntPipe) id: number,
+		@Request() req: { user: { userId: number; role: UserRole } }
+	) {
+		return this.users.findById(id, req.user.userId, req.user.role);
 	}
 
 	@Patch(':id')
@@ -71,7 +73,10 @@ export class UsersController {
 
 	@Delete(':id')
 	@Roles(UserRole.ADMIN)
-	@ApiOperation({ summary: 'Delete user by id (Admin only)' })
+	@ApiOperation({
+		summary:
+			'Soft delete user by id (Admin only) after freezing users accounts',
+	})
 	delete(@Param('id', ParseIntPipe) id: number) {
 		return this.users.delete(id);
 	}

@@ -5,9 +5,11 @@ import {
 	NotFoundException,
 } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
+import { AccountsRepository } from '../accounts/accounts.repository';
 import type {
 	UpdateUserData,
 	UserEntity,
+	UserWithAccounts,
 	PaginatedResult,
 } from 'src/types/index.type';
 import { UserRole } from 'src/types/index.type';
@@ -16,7 +18,10 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-	constructor(private usersRepository: UsersRepository) {}
+	constructor(
+		private usersRepository: UsersRepository,
+		private accountsRepository: AccountsRepository
+	) {}
 
 	async createAdmin(dto: RegisterDto): Promise<Omit<UserEntity, 'password'>> {
 		const existing = await this.usersRepository.findByEmail(dto.email);
@@ -48,12 +53,26 @@ export class UsersService {
 		return { data, total, page, limit };
 	}
 
-	async findById(id: number): Promise<UserEntity> {
+	async findById(
+		id: number,
+		requesterId: number,
+		requesterRole: UserRole
+	): Promise<UserEntity> {
+		if (id !== requesterId && requesterRole !== UserRole.ADMIN) {
+			throw new ForbiddenException('Forbidden Access');
+		}
+		const user = await this.usersRepository.findById(id);
+		if (!user) throw new NotFoundException('User not found');
+		return user;
+	}
+
+	async findProfile(id: number): Promise<UserWithAccounts> {
 		const user = await this.usersRepository.findById(id);
 		if (!user) {
 			throw new NotFoundException('User not found');
 		}
-		return user;
+		const accounts = await this.accountsRepository.findAllByUserId(id);
+		return { ...user, accounts };
 	}
 
 	async findByEmail(email: string): Promise<{ email: string }> {
@@ -74,12 +93,14 @@ export class UsersService {
 		if (requesterId !== id && requesterRole !== UserRole.ADMIN) {
 			throw new ForbiddenException('Forbidden Access');
 		}
-		await this.findById(id);
+		const user = await this.usersRepository.findById(id);
+		if (!user) throw new NotFoundException('User not found');
 		return this.usersRepository.update(id, data);
 	}
 
 	async delete(id: number): Promise<UserEntity> {
-		await this.findById(id);
-		return this.usersRepository.delete(id);
+		const user = await this.usersRepository.findById(id);
+		if (!user) throw new NotFoundException('User not found');
+		return this.usersRepository.softDelete(id);
 	}
 }

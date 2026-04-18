@@ -8,7 +8,7 @@ import type {
 import { UserRole } from '@prisma/client';
 import { buildUserSearchWhere } from '../../common/helpers/search.helper';
 
-export const userSelect = {
+export const payloadFormat = {
 	id: true,
 	name: true,
 	email: true,
@@ -30,34 +30,45 @@ export class UsersRepository {
 	}
 
 	findAll(skip: number, take: number, search?: string): Promise<UserEntity[]> {
-		const where = search ? buildUserSearchWhere(search) : undefined;
-		return this.prisma.user.findMany({ select: userSelect, skip, take, where });
+		const where = {
+			deletedAt: null,
+			...(search ? buildUserSearchWhere(search) : {}),
+		};
+		return this.prisma.user.findMany({
+			select: payloadFormat,
+			skip,
+			take,
+			where,
+		});
 	}
 
 	count(search?: string): Promise<number> {
-		const where = search ? buildUserSearchWhere(search) : undefined;
+		const where = {
+			deletedAt: null,
+			...(search ? buildUserSearchWhere(search) : {}),
+		};
 		return this.prisma.user.count({ where });
 	}
 
 	findById(id: number): Promise<UserEntity | null> {
 		return this.prisma.user.findUnique({
-			where: { id },
-			select: userSelect,
+			where: { id, deletedAt: null },
+			select: payloadFormat,
 		});
 	}
 
 	findByEmail(email: string): Promise<UserEntity | null> {
 		return this.prisma.user.findUnique({
-			where: { email },
-			select: userSelect,
+			where: { email, deletedAt: null },
+			select: payloadFormat,
 		});
 	}
 
 	findByEmailWithPassword(email: string): Promise<UserWithCredentials | null> {
 		return this.prisma.user.findUnique({
-			where: { email },
+			where: { email, deletedAt: null },
 			select: {
-				...userSelect,
+				...payloadFormat,
 				password: true,
 				role: true,
 			},
@@ -65,11 +76,22 @@ export class UsersRepository {
 	}
 
 	update(id: number, data: UpdateUserData): Promise<UserEntity> {
-		return this.prisma.user.update({ where: { id }, data, select: userSelect });
+		return this.prisma.user.update({
+			where: { id },
+			data,
+			select: payloadFormat,
+		});
 	}
 
-	async delete(id: number): Promise<UserEntity> {
-		await this.prisma.account.deleteMany({ where: { userId: id } });
-		return this.prisma.user.delete({ where: { id }, select: userSelect });
+	async softDelete(id: number): Promise<UserEntity> {
+		await this.prisma.account.updateMany({
+			where: { userId: id },
+			data: { status: 'FROZEN' },
+		});
+		return this.prisma.user.update({
+			where: { id },
+			data: { deletedAt: new Date() },
+			select: payloadFormat,
+		});
 	}
 }
