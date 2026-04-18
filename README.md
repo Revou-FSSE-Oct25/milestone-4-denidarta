@@ -4,8 +4,8 @@ A secure and scalable banking API built with NestJS and Prisma for managing user
 
 ## 🌐 Production
 
-- **Base URL**: https://revobank-app-production.up.railway.app
-- **Swagger Docs**: https://revobank-app-production.up.railway.app/api/docs
+- **Base URL**: http://43.129.39.87:3000/api/v1
+- **Swagger Docs**: http://43.129.39.87:3000/api/docs
 
 ## 📋 Overview
 
@@ -56,7 +56,7 @@ RevoBank is a backend banking system designed for both customers and administrat
 - **Testing**: Jest & Supertest (E2E)
 - **Documentation**: Swagger (@nestjs/swagger)
 - **Containerization**: Docker
-- **Deployment**: [Railway](https://railway.app) (Docker image via Docker Hub)
+- **Deployment**: Ubuntu VPS (Docker via Docker Compose)
 - **Node.js**: v20+
 
 ## 📦 Installation
@@ -133,7 +133,7 @@ npm run start:prod
 
 Interactive Swagger documentation:
 - **Local**: `http://localhost:3000/api/docs`
-- **Production**: https://revobank-app-production.up.railway.app/api/docs
+- **Production**: http://43.129.39.87:3000/api/docs
 
 ### Authentication Endpoints
 | Method | Endpoint | Description |
@@ -265,25 +265,56 @@ prisma.config.ts              # Prisma v7 configuration
 
 ## 🚢 Deployment
 
-This project is deployed on **Railway** using a Docker image hosted on Docker Hub.
+This project is deployed on an **Ubuntu VPS** using Docker Compose, with the database hosted on Supabase.
 
-### Build & Push Docker Image
+### Server Info
+- **Public IP**: `43.129.39.87`
+- **OS**: Ubuntu
+- **Containerization**: Docker + Docker Compose
+- **Note**: This server does not have an SSL/HTTPS certificate. All traffic is served over HTTP.
 
+### Deploy to VPS
+
+1. **SSH into server**
 ```bash
-# Build for linux/amd64 (required for Railway) and push in one command
-docker buildx build --platform linux/amd64 -t denidarta/revobank:latest --push .
+ssh ubuntu@43.129.39.87
 ```
 
-### Railway Environment Variables
+2. **Clone repository**
+```bash
+git clone <repository-url>
+cd milestone-4-denidarta
+```
 
-Set these in your Railway service variables:
+3. **Create `.env` file**
+```bash
+cp .env.example .env
+nano .env
+```
 
+4. **Set environment variables**
 ```env
 DATABASE_URL=postgresql://postgres.[project-ref]:[password]@aws-1-ap-southeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true
 DIRECT_URL=postgresql://postgres.[project-ref]:[password]@aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres
 JWT_SECRET=your-secure-secret-key
 JWT_EXPIRES_IN=15m
 PORT=3000
+```
+
+5. **Run the app**
+```bash
+docker compose up -d app
+```
+
+6. **Run migrations**
+```bash
+docker compose exec app npx prisma migrate deploy
+```
+
+### Update Deployment
+```bash
+git pull
+docker compose up -d app --build
 ```
 
 ## 📝 Environment Variables
