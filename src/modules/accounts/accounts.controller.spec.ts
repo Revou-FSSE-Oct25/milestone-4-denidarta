@@ -66,7 +66,10 @@ describe('AccountsController', () => {
 			const mockList = { data: [mockAccount], total: 1, page: 1, limit: 20 };
 			mockAccountsService.findAll.mockResolvedValue(mockList);
 
-			const result = await controller.findAll(adminUser, { page: 1, limit: 20 });
+			const result = await controller.findAll(adminUser, {
+				page: 1,
+				limit: 20,
+			});
 
 			expect(result).toEqual(mockList);
 			expect(mockAccountsService.findAll).toHaveBeenCalledWith(1, 20);
@@ -76,7 +79,10 @@ describe('AccountsController', () => {
 			const mockList = { data: [mockAccount], total: 1, page: 1, limit: 20 };
 			mockAccountsService.findAllByUser.mockResolvedValue(mockList);
 
-			const result = await controller.findAll(regularUser, { page: 1, limit: 20 });
+			const result = await controller.findAll(regularUser, {
+				page: 1,
+				limit: 20,
+			});
 
 			expect(result).toEqual(mockList);
 			expect(mockAccountsService.findAllByUser).toHaveBeenCalledWith(1, 1, 20);

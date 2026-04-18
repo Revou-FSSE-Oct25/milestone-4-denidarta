@@ -30,6 +30,10 @@ export class AccountsRepository {
 	countAll(): Promise<number> {
 		return this.prisma.account.count();
 	}
+	findAllByUserId(userId: number): Promise<AccountEntity[]> {
+		return this.prisma.account.findMany({ where: { userId }, select: selectedData });
+	}
+
 	// get all acount info owned by user
 	findAllByUser(
 		userId: number,

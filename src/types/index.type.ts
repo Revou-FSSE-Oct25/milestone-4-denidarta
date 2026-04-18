@@ -42,6 +42,10 @@ export interface UpdateUserData {
 	email?: string;
 }
 
+export interface UserWithAccounts extends UserEntity {
+	accounts: AccountEntity[];
+}
+
 // ─── Account ─────────────────────────────────────────────────────────────────
 
 export interface AccountEntity {
