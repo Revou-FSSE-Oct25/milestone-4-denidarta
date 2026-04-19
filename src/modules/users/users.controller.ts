@@ -19,6 +19,7 @@ import { Roles } from '../../common/decorators/roles.decorator';
 import { RegisterDto } from '../auth/dto/register.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
+import { PaginationDto } from '../../common/dto/pagination.dto';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -39,8 +40,7 @@ export class UsersController {
 	@Roles(UserRole.ADMIN)
 	@ApiOperation({ summary: 'Get all users (Admin only)' })
 	findAll(
-		@Query('page', new ParseIntPipe({ optional: true })) page = 1,
-		@Query('limit', new ParseIntPipe({ optional: true })) limit = 20,
+		@Query() { page, limit }: PaginationDto,
 		@Query('search') search?: string
 	) {
 		return this.users.findAll(page, limit, search);
