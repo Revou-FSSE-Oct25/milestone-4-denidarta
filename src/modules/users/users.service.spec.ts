@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersRepository } from './users.repository';
+import { AccountsRepository } from '../accounts/accounts.repository';
 import { UserRole } from 'src/types/index.type';
 
 const mockUser = {
@@ -25,6 +26,11 @@ const mockUsersRepository = {
 	findByAccountNumber: jest.fn(),
 	update: jest.fn(),
 	delete: jest.fn(),
+	softDelete: jest.fn(),
+};
+
+const mockAccountsRepository = {
+	findById: jest.fn(),
 };
 
 describe('UsersService', () => {
@@ -36,6 +42,7 @@ describe('UsersService', () => {
 			providers: [
 				UsersService,
 				{ provide: UsersRepository, useValue: mockUsersRepository },
+				{ provide: AccountsRepository, useValue: mockAccountsRepository },
 			],
 		}).compile();
 
@@ -85,7 +92,7 @@ describe('UsersService', () => {
 
 			const result = await service.findAll(1, 20);
 
-			expect(result).toEqual({ data: users, total: 50, page: 1, limit: 20 });
+			expect(result).toEqual({ data: users, total: 50, page: 1, limit: 20, totalPages: 3, hasNextPage: true });
 			expect(repository.findAll).toHaveBeenCalledWith(0, 20, undefined);
 			expect(repository.count).toHaveBeenCalledWith(undefined);
 		});
@@ -115,7 +122,7 @@ describe('UsersService', () => {
 		it('should return user when found', async () => {
 			repository.findById.mockResolvedValue(mockUser);
 
-			const result = await service.findById(1);
+			const result = await service.findById(1, 1, UserRole.USER);
 
 			expect(result).toEqual(mockUser);
 			expect(repository.findById).toHaveBeenCalledWith(1);
@@ -124,7 +131,7 @@ describe('UsersService', () => {
 		it('should throw NotFoundException when user not found', async () => {
 			repository.findById.mockResolvedValue(null);
 
-			await expect(service.findById(99)).rejects.toThrow(NotFoundException);
+			await expect(service.findById(99, 99, UserRole.USER)).rejects.toThrow(NotFoundException);
 		});
 	});
 
@@ -193,19 +200,19 @@ describe('UsersService', () => {
 	describe('delete user from user list', () => {
 		it('should delete user when found', async () => {
 			repository.findById.mockResolvedValue(mockUser);
-			repository.delete.mockResolvedValue(mockUser);
+			repository.softDelete.mockResolvedValue(mockUser);
 
 			const result = await service.softDelete(1);
 
 			expect(result).toEqual(mockUser);
-			expect(repository.delete).toHaveBeenCalledWith(1);
+			expect(repository.softDelete).toHaveBeenCalledWith(1);
 		});
 
 		it('should throw NotFoundException if user does not exist', async () => {
 			repository.findById.mockResolvedValue(null);
 
 			await expect(service.softDelete(2)).rejects.toThrow(NotFoundException);
-			expect(repository.delete).not.toHaveBeenCalled();
+			expect(repository.softDelete).not.toHaveBeenCalled();
 		});
 	});
 });

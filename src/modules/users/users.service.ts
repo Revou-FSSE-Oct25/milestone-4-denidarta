@@ -6,6 +6,10 @@ import {
 } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { AccountsRepository } from '../accounts/accounts.repository';
+import {
+	buildPaginationParams,
+	buildPaginatedResult,
+} from 'src/common/helpers/pagination.helper';
 import type {
 	CreateUserData,
 	UpdateUserData,
@@ -47,12 +51,12 @@ export class UsersService {
 		limit = 20,
 		search?: string
 	): Promise<PaginatedResult<UserEntity>> {
-		const skip = (page - 1) * limit;
+		const { skip, take } = buildPaginationParams(page, limit);
 		const [data, total] = await Promise.all([
-			this.usersRepository.findAll(skip, limit, search),
+			this.usersRepository.findAll(skip, take, search),
 			this.usersRepository.count(search),
 		]);
-		return { data, total, page, limit };
+		return buildPaginatedResult(data, total, page, limit);
 	}
 
 	async findById(
@@ -85,7 +89,6 @@ export class UsersService {
 		return { email: user.email };
 	}
 
-	// UPDATE -----------
 	async update(
 		id: number,
 		data: UpdateUserData,
