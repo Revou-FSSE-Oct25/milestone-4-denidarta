@@ -136,6 +136,8 @@ describe('TransactionsService', () => {
 				total: 1,
 				page: 1,
 				limit: 20,
+				totalPages: 1,
+				hasNextPage: false,
 			});
 			expect(accounts.findById).toHaveBeenCalledWith(1, 1, undefined);
 		});

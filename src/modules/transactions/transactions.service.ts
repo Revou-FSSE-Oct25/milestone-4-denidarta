@@ -7,6 +7,10 @@ import {
 import { Prisma, TransactionType } from '@prisma/client';
 import { AccountsService } from '../accounts/accounts.service';
 import { TransactionsRepository } from './transactions.repository';
+import {
+	buildPaginationParams,
+	buildPaginatedResult,
+} from 'src/common/helpers/pagination.helper';
 import type {
 	CreateTransactionData,
 	PaginatedResult,
@@ -99,7 +103,7 @@ export class TransactionsService {
 	): Promise<PaginatedResult<TransactionEntity>> {
 		await this.accounts.findById(accountId, userId, role);
 
-		const skip = (page - 1) * limit;
+		const { skip, take } = buildPaginationParams(page, limit);
 		const filter = {
 			OR: [
 				{ sourceAccountId: accountId },
@@ -108,11 +112,11 @@ export class TransactionsService {
 		};
 
 		const [data, total] = await Promise.all([
-			this.repository.findAllByAccount(filter, skip, limit),
+			this.repository.findAllByAccount(filter, skip, take),
 			this.repository.countByAccount(filter),
 		]);
 
-		return { data, total, page, limit };
+		return buildPaginatedResult(data, total, page, limit);
 	}
 
 	async findOne(

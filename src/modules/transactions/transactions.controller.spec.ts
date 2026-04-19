@@ -22,8 +22,8 @@ const mockTransactionsService = {
 	findOne: jest.fn(),
 };
 
-const regularUser = { userId: 1, role: UserRole.USER };
-const adminUser = { userId: 1, role: UserRole.ADMIN };
+const regularUser = { userId: 1, email: 'user@example.com', role: UserRole.USER };
+const adminUser = { userId: 1, email: 'admin@example.com', role: UserRole.ADMIN };
 
 describe('TransactionsController', () => {
 	let controller: TransactionsController;
