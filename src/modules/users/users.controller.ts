@@ -78,6 +78,6 @@ export class UsersController {
 			'Soft delete user by id (Admin only) after freezing users accounts',
 	})
 	delete(@Param('id', ParseIntPipe) id: number) {
-		return this.users.delete(id);
+		return this.users.softDelete(id);
 	}
 }

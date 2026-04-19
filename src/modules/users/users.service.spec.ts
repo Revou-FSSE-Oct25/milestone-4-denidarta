@@ -195,7 +195,7 @@ describe('UsersService', () => {
 			repository.findById.mockResolvedValue(mockUser);
 			repository.delete.mockResolvedValue(mockUser);
 
-			const result = await service.delete(1);
+			const result = await service.softDelete(1);
 
 			expect(result).toEqual(mockUser);
 			expect(repository.delete).toHaveBeenCalledWith(1);
@@ -204,7 +204,7 @@ describe('UsersService', () => {
 		it('should throw NotFoundException if user does not exist', async () => {
 			repository.findById.mockResolvedValue(null);
 
-			await expect(service.delete(2)).rejects.toThrow(NotFoundException);
+			await expect(service.softDelete(2)).rejects.toThrow(NotFoundException);
 			expect(repository.delete).not.toHaveBeenCalled();
 		});
 	});

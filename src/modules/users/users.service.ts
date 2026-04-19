@@ -23,7 +23,9 @@ export class UsersService {
 		private accountsRepository: AccountsRepository
 	) {}
 
-	async createAdmin(data: CreateUserData): Promise<Omit<UserEntity, 'password'>> {
+	async createAdmin(
+		data: CreateUserData
+	): Promise<Omit<UserEntity, 'password'>> {
 		const existing = await this.usersRepository.findByEmail(data.email);
 		if (existing) throw new ConflictException('Email already in use');
 
@@ -98,7 +100,7 @@ export class UsersService {
 		return this.usersRepository.update(id, data);
 	}
 
-	async delete(id: number): Promise<UserEntity> {
+	async softDelete(id: number): Promise<UserEntity> {
 		const user = await this.usersRepository.findById(id);
 		if (!user) throw new NotFoundException('User not found');
 		return this.usersRepository.softDelete(id);
