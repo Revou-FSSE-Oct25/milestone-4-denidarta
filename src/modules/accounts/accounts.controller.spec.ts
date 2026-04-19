@@ -26,8 +26,16 @@ const mockAccountsService = {
 	remove: jest.fn(),
 };
 
-const adminUser = { userId: 1, email: 'admin@example.com', role: UserRole.ADMIN };
-const regularUser = { userId: 1, email: 'user@example.com', role: UserRole.USER };
+const adminUser = {
+	userId: 1,
+	email: 'admin@example.com',
+	role: UserRole.ADMIN,
+};
+const regularUser = {
+	userId: 1,
+	email: 'user@example.com',
+	role: UserRole.USER,
+};
 
 describe('AccountsController', () => {
 	let controller: AccountsController;

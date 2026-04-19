@@ -92,7 +92,14 @@ describe('UsersService', () => {
 
 			const result = await service.findAll(1, 20);
 
-			expect(result).toEqual({ data: users, total: 50, page: 1, limit: 20, totalPages: 3, hasNextPage: true });
+			expect(result).toEqual({
+				data: users,
+				total: 50,
+				page: 1,
+				limit: 20,
+				totalPages: 3,
+				hasNextPage: true,
+			});
 			expect(repository.findAll).toHaveBeenCalledWith(0, 20, undefined);
 			expect(repository.count).toHaveBeenCalledWith(undefined);
 		});
@@ -131,7 +138,9 @@ describe('UsersService', () => {
 		it('should throw NotFoundException when user not found', async () => {
 			repository.findById.mockResolvedValue(null);
 
-			await expect(service.findById(99, 99, UserRole.USER)).rejects.toThrow(NotFoundException);
+			await expect(service.findById(99, 99, UserRole.USER)).rejects.toThrow(
+				NotFoundException
+			);
 		});
 	});
 
