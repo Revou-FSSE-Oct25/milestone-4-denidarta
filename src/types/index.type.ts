@@ -14,6 +14,17 @@ export interface JwtPayload {
 	role: UserRole;
 }
 
+export interface CreateUserData {
+	email: string;
+	password: string;
+	name?: string;
+}
+
+export interface LoginData {
+	email: string;
+	password: string;
+}
+
 // ─── API ─────────────────────────────────────────────────────────────────────
 
 export class ApiResponse<T> {
@@ -63,6 +74,13 @@ export interface UpdateAccountData {
 }
 
 // ─── Transaction ─────────────────────────────────────────────────────────────
+
+export interface CreateTransactionData {
+	amount: Prisma.Decimal;
+	type: TransactionType;
+	description?: string;
+	destinationAccountId?: number;
+}
 
 export interface TransactionEntity {
 	id: number;

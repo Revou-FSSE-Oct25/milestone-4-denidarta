@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
-import type { TransactionEntity } from 'src/types/index.type';
+import type { CreateTransactionData, TransactionEntity } from 'src/types/index.type';
 
 type AccountFilter = {
 	OR: [{ sourceAccountId: number }, { destinationAccountId: number }];
@@ -14,7 +13,7 @@ export class TransactionsRepository {
 
 	createDeposit(
 		accountId: number,
-		dto: CreateTransactionDto
+		dto: CreateTransactionData
 	): Promise<TransactionEntity> {
 		return this.prisma.$transaction(async (tx) => {
 			const transaction = await tx.transaction.create({
@@ -35,7 +34,7 @@ export class TransactionsRepository {
 
 	createWithdrawal(
 		accountId: number,
-		dto: CreateTransactionDto
+		dto: CreateTransactionData
 	): Promise<TransactionEntity> {
 		return this.prisma.$transaction(async (tx) => {
 			const transaction = await tx.transaction.create({
@@ -57,7 +56,7 @@ export class TransactionsRepository {
 	createTransfer(
 		sourceAccountId: number,
 		destinationAccountId: number,
-		dto: CreateTransactionDto
+		dto: CreateTransactionData
 	): Promise<TransactionEntity> {
 		return this.prisma.$transaction(async (tx) => {
 			const transaction = await tx.transaction.create({

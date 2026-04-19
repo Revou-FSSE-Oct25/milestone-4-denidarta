@@ -7,13 +7,13 @@ import {
 import { UsersRepository } from './users.repository';
 import { AccountsRepository } from '../accounts/accounts.repository';
 import type {
+	CreateUserData,
 	UpdateUserData,
 	UserEntity,
 	UserWithAccounts,
 	PaginatedResult,
 } from 'src/types/index.type';
 import { UserRole } from 'src/types/index.type';
-import { RegisterDto } from 'src/modules/auth/dto/register.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -23,15 +23,15 @@ export class UsersService {
 		private accountsRepository: AccountsRepository
 	) {}
 
-	async createAdmin(dto: RegisterDto): Promise<Omit<UserEntity, 'password'>> {
-		const existing = await this.usersRepository.findByEmail(dto.email);
+	async createAdmin(data: CreateUserData): Promise<Omit<UserEntity, 'password'>> {
+		const existing = await this.usersRepository.findByEmail(data.email);
 		if (existing) throw new ConflictException('Email already in use');
 
-		const hash = await bcrypt.hash(dto.password, 10);
+		const hash = await bcrypt.hash(data.password, 10);
 		const user = await this.usersRepository.create({
-			email: dto.email,
+			email: data.email,
 			password: hash,
-			name: dto.name ?? '',
+			name: data.name ?? '',
 			role: UserRole.ADMIN,
 		});
 

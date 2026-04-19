@@ -7,8 +7,11 @@ import {
 import { Prisma, TransactionType } from '@prisma/client';
 import { AccountsService } from '../accounts/accounts.service';
 import { TransactionsRepository } from './transactions.repository';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
-import type { PaginatedResult, TransactionEntity } from 'src/types/index.type';
+import type {
+	CreateTransactionData,
+	PaginatedResult,
+	TransactionEntity,
+} from 'src/types/index.type';
 import { UserRole } from 'src/types/index.type';
 
 @Injectable()
@@ -21,7 +24,7 @@ export class TransactionsService {
 	async create(
 		accountId: number,
 		userId: number,
-		dto: CreateTransactionDto
+		dto: CreateTransactionData
 	): Promise<TransactionEntity> {
 		switch (dto.type) {
 			case TransactionType.DEPOSIT:
@@ -36,7 +39,7 @@ export class TransactionsService {
 	private async createDeposit(
 		accountId: number,
 		userId: number,
-		dto: CreateTransactionDto
+		dto: CreateTransactionData
 	): Promise<TransactionEntity> {
 		await this.accounts.findById(accountId, userId);
 		return this.repository.createDeposit(accountId, dto);
@@ -45,7 +48,7 @@ export class TransactionsService {
 	private async createWithdrawal(
 		accountId: number,
 		userId: number,
-		dto: CreateTransactionDto
+		dto: CreateTransactionData
 	): Promise<TransactionEntity> {
 		const account = await this.accounts.findById(accountId, userId);
 
@@ -61,7 +64,7 @@ export class TransactionsService {
 	private async createTransfer(
 		accountId: number,
 		userId: number,
-		dto: CreateTransactionDto
+		dto: CreateTransactionData
 	): Promise<TransactionEntity> {
 		const sourceAccount = await this.accounts.findById(accountId, userId);
 

@@ -6,9 +6,8 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UserRole } from '@prisma/client';
-import { RegisterDto } from './dto/register.dto';
-import { LoginDto } from './dto/login.dto';
 import { UsersRepository } from 'src/modules/users/users.repository';
+import type { CreateUserData, LoginData } from 'src/types/index.type';
 
 @Injectable()
 export class AuthService {
@@ -17,26 +16,26 @@ export class AuthService {
 		private jwt: JwtService
 	) {}
 
-	async register(dto: RegisterDto) {
-		const existing = await this.usersRepository.findByEmail(dto.email);
+	async register(data: CreateUserData) {
+		const existing = await this.usersRepository.findByEmail(data.email);
 		if (existing) throw new ConflictException('Email already in use');
 
-		const hash = await bcrypt.hash(dto.password, 10);
+		const hash = await bcrypt.hash(data.password, 10);
 		const user = await this.usersRepository.create({
-			email: dto.email,
+			email: data.email,
 			password: hash,
-			name: dto.name ?? '',
+			name: data.name ?? '',
 			role: UserRole.USER,
 		});
 
 		return this.signToken(user.id, user.email, UserRole.USER);
 	}
 
-	async login(dto: LoginDto) {
-		const user = await this.usersRepository.findByEmailWithPassword(dto.email);
+	async login(data: LoginData) {
+		const user = await this.usersRepository.findByEmailWithPassword(data.email);
 		if (!user) throw new UnauthorizedException('Invalid credentials');
 
-		const valid = await bcrypt.compare(dto.password, user.password);
+		const valid = await bcrypt.compare(data.password, user.password);
 		if (!valid) throw new UnauthorizedException('Invalid credentials');
 
 		return this.signToken(user.id, user.email, user.role);
