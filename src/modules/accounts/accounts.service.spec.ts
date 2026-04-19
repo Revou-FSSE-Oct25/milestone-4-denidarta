@@ -76,6 +76,8 @@ describe('AccountsService', () => {
 				total: 1,
 				page: 1,
 				limit: 20,
+				totalPages: 1,
+				hasNextPage: false,
 			});
 		});
 
@@ -100,6 +102,8 @@ describe('AccountsService', () => {
 				total: 1,
 				page: 1,
 				limit: 20,
+				totalPages: 1,
+				hasNextPage: false,
 			});
 			expect(repository.findAllByUser).toHaveBeenCalledWith(1, 0, 20);
 		});

@@ -4,6 +4,10 @@ import {
 	NotFoundException,
 } from '@nestjs/common';
 import { AccountsRepository } from './accounts.repository';
+import {
+	buildPaginationParams,
+	buildPaginatedResult,
+} from 'src/common/helpers/pagination.helper';
 import type {
 	AccountEntity,
 	PaginatedResult,
@@ -24,12 +28,12 @@ export class AccountsService {
 	}
 
 	async findAll(page = 1, limit = 20): Promise<PaginatedResult<AccountEntity>> {
-		const skip = (page - 1) * limit;
+		const { skip, take } = buildPaginationParams(page, limit);
 		const [data, total] = await Promise.all([
-			this.accountsRepository.findAll(skip, limit),
+			this.accountsRepository.findAll(skip, take),
 			this.accountsRepository.countAll(),
 		]);
-		return { data, total, page, limit };
+		return buildPaginatedResult(data, total, page, limit);
 	}
 
 	async findAllByUser(
@@ -37,13 +41,13 @@ export class AccountsService {
 		page = 1,
 		limit = 20
 	): Promise<PaginatedResult<AccountEntity>> {
-		const skip = (page - 1) * limit;
+		const { skip, take } = buildPaginationParams(page, limit);
 		const [data, total] = await this.accountsRepository.findAllByUser(
 			userId,
 			skip,
-			limit
+			take
 		);
-		return { data, total, page, limit };
+		return buildPaginatedResult(data, total, page, limit);
 	}
 
 	async findById(
