@@ -89,7 +89,10 @@ describe('UsersController', () => {
 			const mockList = { data: [mockUser], total: 1, page: 1, limit: 20 };
 			mockUsersService.findAll.mockResolvedValue(mockList);
 
-			const result = await controller.findAll({ page: 1, limit: 20 }, undefined);
+			const result = await controller.findAll(
+				{ page: 1, limit: 20 },
+				undefined
+			);
 
 			expect(result).toEqual(mockList);
 			expect(mockUsersService.findAll).toHaveBeenCalledWith(1, 20, undefined);
@@ -104,7 +107,11 @@ describe('UsersController', () => {
 			const result = await controller.findOne(1, req);
 
 			expect(result).toEqual(mockUser);
-			expect(mockUsersService.findById).toHaveBeenCalledWith(1, 1, UserRole.USER);
+			expect(mockUsersService.findById).toHaveBeenCalledWith(
+				1,
+				1,
+				UserRole.USER
+			);
 		});
 	});
 

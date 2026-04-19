@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
-import type { CreateTransactionData, TransactionEntity } from 'src/types/index.type';
+import type {
+	CreateTransactionData,
+	TransactionEntity,
+} from 'src/types/index.type';
 
 type AccountFilter = {
 	OR: [{ sourceAccountId: number }, { destinationAccountId: number }];
