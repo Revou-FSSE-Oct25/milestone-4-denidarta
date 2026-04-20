@@ -37,6 +37,7 @@ model Transaction {
   type                 TransactionType
   description          String?
   createdAt            DateTime        @default(now())
+  idempotencyKey       String?         @unique
   sourceAccountId      Int?
   destinationAccountId Int?
   destinationAccount   Account?        @relation("DestinationAccount", fields: [destinationAccountId], references: [id])

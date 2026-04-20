@@ -28,31 +28,40 @@ export class TransactionsService {
 	async create(
 		accountId: number,
 		userId: number,
-		dto: CreateTransactionData
+		dto: CreateTransactionData,
+		idempotencyKey?: string
 	): Promise<TransactionEntity> {
+		if (idempotencyKey) {
+			const existing =
+				await this.repository.findByIdempotencyKey(idempotencyKey);
+			if (existing) return existing;
+		}
+
 		switch (dto.type) {
 			case TransactionType.DEPOSIT:
-				return this.createDeposit(accountId, userId, dto);
+				return this.createDeposit(accountId, userId, dto, idempotencyKey);
 			case TransactionType.WITHDRAWAL:
-				return this.createWithdrawal(accountId, userId, dto);
+				return this.createWithdrawal(accountId, userId, dto, idempotencyKey);
 			default:
-				return this.createTransfer(accountId, userId, dto);
+				return this.createTransfer(accountId, userId, dto, idempotencyKey);
 		}
 	}
 
 	private async createDeposit(
 		accountId: number,
 		userId: number,
-		dto: CreateTransactionData
+		dto: CreateTransactionData,
+		idempotencyKey?: string
 	): Promise<TransactionEntity> {
 		await this.accounts.findById(accountId, userId);
-		return this.repository.createDeposit(accountId, dto);
+		return this.repository.createDeposit(accountId, dto, idempotencyKey);
 	}
 
 	private async createWithdrawal(
 		accountId: number,
 		userId: number,
-		dto: CreateTransactionData
+		dto: CreateTransactionData,
+		idempotencyKey?: string
 	): Promise<TransactionEntity> {
 		const account = await this.accounts.findById(accountId, userId);
 
@@ -62,13 +71,14 @@ export class TransactionsService {
 			throw new BadRequestException('Insufficient balance');
 		}
 
-		return this.repository.createWithdrawal(accountId, dto);
+		return this.repository.createWithdrawal(accountId, dto, idempotencyKey);
 	}
 
 	private async createTransfer(
 		accountId: number,
 		userId: number,
-		dto: CreateTransactionData
+		dto: CreateTransactionData,
+		idempotencyKey?: string
 	): Promise<TransactionEntity> {
 		const sourceAccount = await this.accounts.findById(accountId, userId);
 
@@ -90,7 +100,8 @@ export class TransactionsService {
 		return this.repository.createTransfer(
 			accountId,
 			dto.destinationAccountId!,
-			dto
+			dto,
+			idempotencyKey
 		);
 	}
 

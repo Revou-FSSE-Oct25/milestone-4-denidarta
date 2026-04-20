@@ -14,9 +14,16 @@ type AccountFilter = {
 export class TransactionsRepository {
 	constructor(private readonly prisma: PrismaService) {}
 
+	findByIdempotencyKey(key: string): Promise<TransactionEntity | null> {
+		return this.prisma.transaction.findUnique({
+			where: { idempotencyKey: key },
+		});
+	}
+
 	createDeposit(
 		accountId: number,
-		dto: CreateTransactionData
+		dto: CreateTransactionData,
+		idempotencyKey?: string
 	): Promise<TransactionEntity> {
 		return this.prisma.$transaction(async (tx) => {
 			const transaction = await tx.transaction.create({
@@ -25,6 +32,7 @@ export class TransactionsRepository {
 					amount: dto.amount,
 					type: dto.type,
 					description: dto.description,
+					idempotencyKey,
 				},
 			});
 			await tx.account.update({
@@ -37,7 +45,8 @@ export class TransactionsRepository {
 
 	createWithdrawal(
 		accountId: number,
-		dto: CreateTransactionData
+		dto: CreateTransactionData,
+		idempotencyKey?: string
 	): Promise<TransactionEntity> {
 		return this.prisma.$transaction(async (tx) => {
 			const transaction = await tx.transaction.create({
@@ -46,6 +55,7 @@ export class TransactionsRepository {
 					amount: dto.amount,
 					type: dto.type,
 					description: dto.description,
+					idempotencyKey,
 				},
 			});
 			await tx.account.update({
@@ -59,7 +69,8 @@ export class TransactionsRepository {
 	createTransfer(
 		sourceAccountId: number,
 		destinationAccountId: number,
-		dto: CreateTransactionData
+		dto: CreateTransactionData,
+		idempotencyKey?: string
 	): Promise<TransactionEntity> {
 		return this.prisma.$transaction(async (tx) => {
 			const transaction = await tx.transaction.create({
@@ -69,6 +80,7 @@ export class TransactionsRepository {
 					amount: dto.amount,
 					type: dto.type,
 					description: dto.description,
+					idempotencyKey,
 				},
 			});
 			await tx.account.update({
@@ -82,7 +94,7 @@ export class TransactionsRepository {
 			return transaction;
 		});
 	}
-
+	// READ
 	findAllByAccount(
 		filter: AccountFilter,
 		skip: number,

@@ -2,6 +2,7 @@ import {
 	Body,
 	Controller,
 	Get,
+	Headers,
 	Param,
 	ParseIntPipe,
 	Post,
@@ -30,9 +31,15 @@ export class TransactionsController {
 	create(
 		@Param('accountId', ParseIntPipe) accountId: number,
 		@CurrentUser() user: JwtPayload,
-		@Body() dto: CreateTransactionDto
+		@Body() dto: CreateTransactionDto,
+		@Headers('idempotency-key') idempotencyKey?: string
 	) {
-		return this.transactions.create(accountId, user.userId, dto);
+		return this.transactions.create(
+			accountId,
+			user.userId,
+			dto,
+			idempotencyKey
+		);
 	}
 
 	@Get('accounts/:accountId/transactions')
