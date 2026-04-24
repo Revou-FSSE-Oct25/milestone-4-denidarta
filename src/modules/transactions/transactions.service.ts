@@ -1,16 +1,16 @@
 import {
-	BadRequestException,
 	ForbiddenException,
 	Injectable,
 	NotFoundException,
 } from '@nestjs/common';
-import { Prisma, TransactionType } from '@prisma/client';
+import { TransactionType } from '@prisma/client';
 import { AccountsService } from '../accounts/accounts.service';
 import { TransactionsRepository } from './transactions.repository';
 import {
 	buildPaginationParams,
 	buildPaginatedResult,
 } from 'src/common/helpers/pagination.helper';
+import { resolveIdempotency } from 'src/common/helpers/idempotency.helper';
 import type {
 	CreateTransactionData,
 	PaginatedResult,
@@ -31,11 +31,10 @@ export class TransactionsService {
 		dto: CreateTransactionData,
 		idempotencyKey?: string
 	): Promise<TransactionEntity> {
-		if (idempotencyKey) {
-			const existing =
-				await this.repository.findByIdempotencyKey(idempotencyKey);
-			if (existing) return existing;
-		}
+		const existing = await resolveIdempotency(idempotencyKey, (key) =>
+			this.repository.findByIdempotencyKey(key)
+		);
+		if (existing) return existing;
 
 		switch (dto.type) {
 			case TransactionType.DEPOSIT:
@@ -63,14 +62,7 @@ export class TransactionsService {
 		dto: CreateTransactionData,
 		idempotencyKey?: string
 	): Promise<TransactionEntity> {
-		const account = await this.accounts.findById(accountId, userId);
-
-		if (
-			new Prisma.Decimal(account.balance).lt(new Prisma.Decimal(dto.amount))
-		) {
-			throw new BadRequestException('Insufficient balance');
-		}
-
+		await this.accounts.findById(accountId, userId);
 		return this.repository.createWithdrawal(accountId, dto, idempotencyKey);
 	}
 
@@ -80,15 +72,7 @@ export class TransactionsService {
 		dto: CreateTransactionData,
 		idempotencyKey?: string
 	): Promise<TransactionEntity> {
-		const sourceAccount = await this.accounts.findById(accountId, userId);
-
-		if (
-			new Prisma.Decimal(sourceAccount.balance).lt(
-				new Prisma.Decimal(dto.amount)
-			)
-		) {
-			throw new BadRequestException('Insufficient balance');
-		}
+		await this.accounts.findById(accountId, userId);
 
 		// destination ownership is not checked — any active account can receive a transfer
 		await this.accounts.findById(

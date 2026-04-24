@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import type {
@@ -49,6 +49,15 @@ export class TransactionsRepository {
 		idempotencyKey?: string
 	): Promise<TransactionEntity> {
 		return this.prisma.$transaction(async (tx) => {
+			const [account] = await tx.$queryRaw<{ balance: Prisma.Decimal }[]>`
+				SELECT balance FROM accounts WHERE id = ${accountId} FOR UPDATE
+			`;
+			if (
+				new Prisma.Decimal(account.balance).lt(new Prisma.Decimal(dto.amount))
+			) {
+				throw new BadRequestException('Insufficient balance');
+			}
+
 			const transaction = await tx.transaction.create({
 				data: {
 					sourceAccountId: accountId,
@@ -73,6 +82,17 @@ export class TransactionsRepository {
 		idempotencyKey?: string
 	): Promise<TransactionEntity> {
 		return this.prisma.$transaction(async (tx) => {
+			const [sourceAccount] = await tx.$queryRaw<{ balance: Prisma.Decimal }[]>`
+				SELECT balance FROM accounts WHERE id = ${sourceAccountId} FOR UPDATE
+			`;
+			if (
+				new Prisma.Decimal(sourceAccount.balance).lt(
+					new Prisma.Decimal(dto.amount)
+				)
+			) {
+				throw new BadRequestException('Insufficient balance');
+			}
+
 			const transaction = await tx.transaction.create({
 				data: {
 					sourceAccountId,
