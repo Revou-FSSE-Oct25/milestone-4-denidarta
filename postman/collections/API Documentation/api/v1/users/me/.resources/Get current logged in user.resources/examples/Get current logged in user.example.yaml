@@ -1,0 +1,68 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/api/v1/users/myprofile"
+  method: GET
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    cross-origin-opener-policy: same-origin
+    cross-origin-resource-policy: same-origin
+    origin-agent-cluster: ?1
+    referrer-policy: no-referrer
+    strict-transport-security: max-age=31536000; includeSubDomains
+    x-content-type-options: nosniff
+    x-dns-prefetch-control: off
+    x-download-options: noopen
+    x-frame-options: SAMEORIGIN
+    x-permitted-cross-domain-policies: none
+    x-xss-protection: "0"
+    x-ratelimit-limit: "10"
+    x-ratelimit-remaining: "9"
+    x-ratelimit-reset: "6"
+    content-type: application/json; charset=utf-8
+    content-length: "647"
+    etag: W/"287-p6u2ScxBoiiuq9NcoNf095FVjGg"
+    date: Sat, 25 Apr 2026 04:50:38 GMT
+    connection: keep-alive
+    keep-alive: timeout=5
+  body:
+    type: json
+    content: |-
+      {
+        "id": 1,
+        "name": "John Doe",
+        "email": "john@example.com",
+        "createdAt": "2026-04-10T12:57:06.383Z",
+        "updatedAt": "2026-04-10T12:57:06.383Z",
+        "accounts": [
+          {
+            "id": 53,
+            "accountNumber": 1805461132,
+            "status": "ACTIVE",
+            "balance": "43612694.09",
+            "createdAt": "2026-04-18T05:08:16.433Z",
+            "updatedAt": "2026-04-18T05:08:16.433Z",
+            "userId": 1
+          },
+          {
+            "id": 155,
+            "accountNumber": 1143306324,
+            "status": "ACTIVE",
+            "balance": "12633413.7",
+            "createdAt": "2026-04-18T05:12:14.312Z",
+            "updatedAt": "2026-04-18T05:12:14.312Z",
+            "userId": 1
+          },
+          {
+            "id": 1,
+            "accountNumber": 1089173018,
+            "status": "ACTIVE",
+            "balance": "24568041.13",
+            "createdAt": "2026-04-11T06:53:21.713Z",
+            "updatedAt": "2026-04-24T17:53:29.518Z",
+            "userId": 1
+          }
+        ]
+      }
+order: 3202941562388768

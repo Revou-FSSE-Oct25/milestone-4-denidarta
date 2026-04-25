@@ -10,5 +10,5 @@ auth:
   type: bearer
   credentials:
     token: "{{bearerToken}}"
-examples: ./.resources/Get all transactions for an account.resources/examples
+examples: .resources/Get all transactions for an account.resources/examples
 order: 2000

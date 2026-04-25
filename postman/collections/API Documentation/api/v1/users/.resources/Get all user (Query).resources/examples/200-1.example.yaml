@@ -1,0 +1,417 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/api/v1/users?page=1&limit=50"
+  method: GET
+  queryParams:
+    - key: page
+      value: "1"
+    - key: limit
+      value: "50"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: cross-origin-opener-policy
+      value: same-origin
+    - key: cross-origin-resource-policy
+      value: same-origin
+    - key: origin-agent-cluster
+      value: ?1
+    - key: referrer-policy
+      value: no-referrer
+    - key: strict-transport-security
+      value: max-age=31536000; includeSubDomains
+    - key: x-content-type-options
+      value: nosniff
+    - key: x-dns-prefetch-control
+      value: off
+    - key: x-download-options
+      value: noopen
+    - key: x-frame-options
+      value: SAMEORIGIN
+    - key: x-permitted-cross-domain-policies
+      value: none
+    - key: x-xss-protection
+      value: "0"
+    - key: x-ratelimit-limit
+      value: "10"
+    - key: x-ratelimit-remaining
+      value: "9"
+    - key: x-ratelimit-reset
+      value: "6"
+    - key: content-type
+      value: application/json; charset=utf-8
+    - key: content-length
+      value: "7414"
+    - key: etag
+      value: W/"1cf6-J+Dzjg89Xa3R2JMWzb/lbi6v0Yw"
+    - key: date
+      value: Sat, 25 Apr 2026 04:26:10 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+  body:
+    type: json
+    content: |-
+      {
+        "data": [
+          {
+            "id": 1,
+            "name": "John Doe",
+            "email": "john@example.com",
+            "createdAt": "2026-04-10T12:57:06.383Z",
+            "updatedAt": "2026-04-10T12:57:06.383Z"
+          },
+          {
+            "id": 2,
+            "name": "Admin",
+            "email": "admin@example.com",
+            "createdAt": "2026-04-11T06:53:21.333Z",
+            "updatedAt": "2026-04-11T06:53:21.333Z"
+          },
+          {
+            "id": 3,
+            "name": "Bessie Hickle",
+            "email": "Salvador.Hettinger@hotmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 4,
+            "name": "Kadin Konopelski MD",
+            "email": "Warren.Mills@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 5,
+            "name": "Kenny Raynor",
+            "email": "Ruthie10@hotmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 6,
+            "name": "Patrick Powlowski",
+            "email": "Hellen25@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 7,
+            "name": "Janessa Runte DVM",
+            "email": "Gardner56@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 8,
+            "name": "Kelly Orn",
+            "email": "Antonio.Quigley81@yahoo.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 9,
+            "name": "Sadie Kirlin",
+            "email": "Lilla_Lebsack76@yahoo.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 10,
+            "name": "Nathan Sauer-Sporer",
+            "email": "Nickolas54@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 11,
+            "name": "Alonzo Schroeder III",
+            "email": "Aurelia32@hotmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 12,
+            "name": "Jacob Fisher-Cummerata",
+            "email": "Eloise57@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 13,
+            "name": "Domenico Dibbert",
+            "email": "Obie_Daugherty@yahoo.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 14,
+            "name": "Jaeden Cole",
+            "email": "Diana74@yahoo.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 15,
+            "name": "Sheridan Anderson",
+            "email": "Henry76@yahoo.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 16,
+            "name": "Hope Heidenreich-Parisian",
+            "email": "Velva_Aufderhar@hotmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 17,
+            "name": "Mr. Josue Smitham",
+            "email": "Rico9@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 18,
+            "name": "Catharine Kirlin",
+            "email": "Eugene.Kuphal67@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 19,
+            "name": "Kennith Kertzmann",
+            "email": "Rhoda.Bernhard@hotmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 20,
+            "name": "Bianka Halvorson",
+            "email": "Blake.Cummerata@hotmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 21,
+            "name": "Lana Daniel",
+            "email": "Emilio.Huels64@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 22,
+            "name": "Joel Kuhlman",
+            "email": "Sandy_Keeling@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 23,
+            "name": "Tanner Jast",
+            "email": "Nelson.Bernier50@hotmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 24,
+            "name": "Marcos Bode",
+            "email": "Lucienne34@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 25,
+            "name": "Rolando Yost",
+            "email": "Camren13@yahoo.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 26,
+            "name": "Gretchen Hettinger II",
+            "email": "Caroline89@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 27,
+            "name": "Wellington Schultz",
+            "email": "Phillip24@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 28,
+            "name": "Glenda Sawayn",
+            "email": "Anya13@hotmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 29,
+            "name": "Meredith Johnson-Beatty",
+            "email": "Harmony.Bode36@yahoo.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 30,
+            "name": "Connie Gusikowski V",
+            "email": "Bruce.Lind88@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 31,
+            "name": "Jamir Bruen",
+            "email": "Janelle49@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 32,
+            "name": "Cecil McKenzie",
+            "email": "Marilyn.Ledner33@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 33,
+            "name": "Mrs. Lorraine Dickinson",
+            "email": "Salvatore.Parisian95@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 34,
+            "name": "Peggy Bashirian",
+            "email": "Sally.Nienow54@hotmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 35,
+            "name": "Alexander Kling",
+            "email": "Jaleel.Hegmann@yahoo.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 36,
+            "name": "Ms. Alicia Olson",
+            "email": "Carissa.Kling82@hotmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 37,
+            "name": "Alana Thompson",
+            "email": "Alexandria.Schoen32@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 38,
+            "name": "Max Kunze Sr.",
+            "email": "Pamela_Parker@yahoo.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 39,
+            "name": "Francisco McGlynn DDS",
+            "email": "Dawn_Johnston@yahoo.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 40,
+            "name": "Jasper Simonis",
+            "email": "Susie_Halvorson@hotmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 41,
+            "name": "Neal Bartoletti",
+            "email": "Gene7@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 42,
+            "name": "Triston Hermann",
+            "email": "Brett.Daniel31@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 43,
+            "name": "Angelica Feeney",
+            "email": "Leopoldo11@hotmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 44,
+            "name": "Elda Cummings",
+            "email": "Rafael_Armstrong16@yahoo.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 45,
+            "name": "Darla Skiles",
+            "email": "Amos84@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 46,
+            "name": "Orlando Greenfelder",
+            "email": "Geneva_Rippin@hotmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 47,
+            "name": "Syble Lesch MD",
+            "email": "Domenica_Hoeger70@hotmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 48,
+            "name": "Dianna McLaughlin",
+            "email": "Sammie.King97@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 49,
+            "name": "Dr. Bettie Murazik",
+            "email": "Amina_Bergnaum28@yahoo.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 50,
+            "name": "Pat Kovacek",
+            "email": "Elvira.Crona27@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          }
+        ],
+        "total": 155,
+        "page": 1,
+        "limit": 50,
+        "totalPages": 4,
+        "hasNextPage": true
+      }
+order: 3403501258408179
+name: "200"

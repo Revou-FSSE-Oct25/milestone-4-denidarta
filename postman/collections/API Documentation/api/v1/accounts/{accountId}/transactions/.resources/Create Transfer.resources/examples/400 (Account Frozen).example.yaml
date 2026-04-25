@@ -1,0 +1,73 @@
+$kind: http-example
+request:
+  url: "{{baseurl}}/api/v1/accounts/:id/transactions"
+  method: POST
+  headers:
+    - key: Idempotency-Key
+      value: extremely-random-87928321212
+  pathVariables:
+    - key: id
+      value: "1"
+  body:
+    type: json
+    content: |2-
+        {                                                                                                                     
+          "amount": "100.00",
+          "type": "TRANSFER",                                                                                                  
+          "description": "Kirim uang",
+          "destinationAccountId": "160"
+        }        
+response:
+  statusCode: 400
+  statusText: Bad Request
+  headers:
+    - key: cross-origin-opener-policy
+      value: same-origin
+    - key: cross-origin-resource-policy
+      value: same-origin
+    - key: origin-agent-cluster
+      value: ?1
+    - key: referrer-policy
+      value: no-referrer
+    - key: strict-transport-security
+      value: max-age=31536000; includeSubDomains
+    - key: x-content-type-options
+      value: nosniff
+    - key: x-dns-prefetch-control
+      value: off
+    - key: x-download-options
+      value: noopen
+    - key: x-frame-options
+      value: SAMEORIGIN
+    - key: x-permitted-cross-domain-policies
+      value: none
+    - key: x-xss-protection
+      value: "0"
+    - key: x-ratelimit-limit
+      value: "10"
+    - key: x-ratelimit-remaining
+      value: "9"
+    - key: x-ratelimit-reset
+      value: "6"
+    - key: content-type
+      value: application/json; charset=utf-8
+    - key: content-length
+      value: "70"
+    - key: etag
+      value: W/"46-//A9Wk3hUp6GUhrG+TQgTje3igo"
+    - key: date
+      value: Sat, 25 Apr 2026 05:24:54 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+  body:
+    type: json
+    content: |-
+      {
+        "message": "Account is frozen",
+        "error": "Bad Request",
+        "statusCode": 400
+      }
+order: 4345505024793177
+name: 400 (Account Frozen)

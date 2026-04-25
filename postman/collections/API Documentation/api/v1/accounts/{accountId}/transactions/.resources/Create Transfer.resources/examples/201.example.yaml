@@ -1,0 +1,75 @@
+$kind: http-example
+request:
+  url: "{{baseurl}}/api/v1/accounts/{{accountId}}/transactions"
+  method: POST
+  headers:
+    - key: Idempotency-Key
+      value: extremely-random-8792832
+  body:
+    type: json
+    content: |2-
+        {                                                                                                                     
+          "amount": "100.00",
+          "type": "TRANSFER",                                                                                                  
+          "description": "Kirim uang",
+          "destinationAccountId": "3"
+        }        
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    - key: cross-origin-opener-policy
+      value: same-origin
+    - key: cross-origin-resource-policy
+      value: same-origin
+    - key: origin-agent-cluster
+      value: ?1
+    - key: referrer-policy
+      value: no-referrer
+    - key: strict-transport-security
+      value: max-age=31536000; includeSubDomains
+    - key: x-content-type-options
+      value: nosniff
+    - key: x-dns-prefetch-control
+      value: off
+    - key: x-download-options
+      value: noopen
+    - key: x-frame-options
+      value: SAMEORIGIN
+    - key: x-permitted-cross-domain-policies
+      value: none
+    - key: x-xss-protection
+      value: "0"
+    - key: x-ratelimit-limit
+      value: "10"
+    - key: x-ratelimit-remaining
+      value: "9"
+    - key: x-ratelimit-reset
+      value: "6"
+    - key: content-type
+      value: application/json; charset=utf-8
+    - key: content-length
+      value: "196"
+    - key: etag
+      value: W/"c4-jpNKGWqN8J+rNoUTnfgitm20Vro"
+    - key: date
+      value: Sat, 25 Apr 2026 05:17:35 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+  body:
+    type: json
+    content: |-
+      {
+        "id": 9,
+        "amount": "100",
+        "type": "TRANSFER",
+        "description": "Kirim uang",
+        "createdAt": "2026-04-25T05:17:35.775Z",
+        "idempotencyKey": "extremely-random-8792832",
+        "sourceAccountId": 1,
+        "destinationAccountId": 3
+      }
+order: 4263286606111062
+name: "201"

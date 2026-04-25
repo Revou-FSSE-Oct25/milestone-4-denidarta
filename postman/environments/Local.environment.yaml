@@ -6,3 +6,9 @@ values:
   - key: bearertoken
     enabled: true
     value: ''
+  - key: Admintoken
+    enabled: true
+    value: ''
+  - key: accountId
+    enabled: true
+    value: ''

@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{baseUrl}}/api/v1/users?page=1&limit=50"
+method: GET
+queryParams:
+  page: "1"
+  limit: "50"
+auth:
+  credentials:
+    token: "{{bearertoken}}"
+  type: bearer
+examples: .resources/Get all user (Query).resources/examples
+order: 2528474573047513

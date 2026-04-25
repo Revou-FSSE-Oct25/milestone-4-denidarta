@@ -1,0 +1,202 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/api/v1/users/"
+  method: GET
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: cross-origin-opener-policy
+      value: same-origin
+    - key: cross-origin-resource-policy
+      value: same-origin
+    - key: origin-agent-cluster
+      value: ?1
+    - key: referrer-policy
+      value: no-referrer
+    - key: strict-transport-security
+      value: max-age=31536000; includeSubDomains
+    - key: x-content-type-options
+      value: nosniff
+    - key: x-dns-prefetch-control
+      value: off
+    - key: x-download-options
+      value: noopen
+    - key: x-frame-options
+      value: SAMEORIGIN
+    - key: x-permitted-cross-domain-policies
+      value: none
+    - key: x-xss-protection
+      value: "0"
+    - key: x-ratelimit-limit
+      value: "10"
+    - key: x-ratelimit-remaining
+      value: "9"
+    - key: x-ratelimit-reset
+      value: "6"
+    - key: content-type
+      value: application/json; charset=utf-8
+    - key: content-length
+      value: "2986"
+    - key: etag
+      value: W/"baa-AKD0gyIlcGRCiSudFbXYQ/nnv0I"
+    - key: date
+      value: Sat, 25 Apr 2026 04:22:48 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+  body:
+    type: json
+    content: |-
+      {
+        "data": [
+          {
+            "id": 1,
+            "name": "John Doe",
+            "email": "john@example.com",
+            "createdAt": "2026-04-10T12:57:06.383Z",
+            "updatedAt": "2026-04-10T12:57:06.383Z"
+          },
+          {
+            "id": 2,
+            "name": "Admin",
+            "email": "admin@example.com",
+            "createdAt": "2026-04-11T06:53:21.333Z",
+            "updatedAt": "2026-04-11T06:53:21.333Z"
+          },
+          {
+            "id": 3,
+            "name": "Bessie Hickle",
+            "email": "Salvador.Hettinger@hotmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 4,
+            "name": "Kadin Konopelski MD",
+            "email": "Warren.Mills@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 5,
+            "name": "Kenny Raynor",
+            "email": "Ruthie10@hotmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 6,
+            "name": "Patrick Powlowski",
+            "email": "Hellen25@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 7,
+            "name": "Janessa Runte DVM",
+            "email": "Gardner56@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 8,
+            "name": "Kelly Orn",
+            "email": "Antonio.Quigley81@yahoo.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 9,
+            "name": "Sadie Kirlin",
+            "email": "Lilla_Lebsack76@yahoo.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 10,
+            "name": "Nathan Sauer-Sporer",
+            "email": "Nickolas54@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 11,
+            "name": "Alonzo Schroeder III",
+            "email": "Aurelia32@hotmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 12,
+            "name": "Jacob Fisher-Cummerata",
+            "email": "Eloise57@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 13,
+            "name": "Domenico Dibbert",
+            "email": "Obie_Daugherty@yahoo.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 14,
+            "name": "Jaeden Cole",
+            "email": "Diana74@yahoo.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 15,
+            "name": "Sheridan Anderson",
+            "email": "Henry76@yahoo.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 16,
+            "name": "Hope Heidenreich-Parisian",
+            "email": "Velva_Aufderhar@hotmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 17,
+            "name": "Mr. Josue Smitham",
+            "email": "Rico9@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 18,
+            "name": "Catharine Kirlin",
+            "email": "Eugene.Kuphal67@gmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 19,
+            "name": "Kennith Kertzmann",
+            "email": "Rhoda.Bernhard@hotmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          },
+          {
+            "id": 20,
+            "name": "Bianka Halvorson",
+            "email": "Blake.Cummerata@hotmail.com",
+            "createdAt": "2026-04-11T06:53:21.608Z",
+            "updatedAt": "2026-04-11T06:53:21.608Z"
+          }
+        ],
+        "total": 155,
+        "page": 1,
+        "limit": 20,
+        "totalPages": 8,
+        "hasNextPage": true
+      }
+order: 3481658089013474
+name: "200"

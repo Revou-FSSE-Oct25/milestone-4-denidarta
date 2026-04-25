@@ -8,6 +8,5 @@ auth:
   type: bearer
   credentials:
     token: "{{bearerToken}}"
-examples: ./.resources/Lookup account by account number — returns account number
-  and.resources/examples
+examples: .resources/Lookup account by account number — returns account number and.resources/examples
 order: 1000

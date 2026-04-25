@@ -1,4 +1,9 @@
 $kind: collection
+name: API Documentation
 description: Belum ada deskripsi
 variables:
   baseUrl: /
+auth:
+  type: bearer
+  credentials:
+    token: "{{bearertoken}}"

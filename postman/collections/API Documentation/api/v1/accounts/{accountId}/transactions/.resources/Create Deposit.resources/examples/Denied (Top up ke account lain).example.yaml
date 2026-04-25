@@ -1,0 +1,69 @@
+$kind: http-example
+request:
+  url: "{{baseurl}}/api/v1/accounts/156/transactions"
+  method: POST
+  headers:
+    - key: Idempotency-Key
+      value: extremely-random-23
+  body:
+    type: json
+    content: |2-
+        {                                                                                                                     
+          "amount": "10000",
+          "type": "DEPOSIT",                                                                                                  
+          "description": "Depo Depo"
+        }        
+response:
+  statusCode: 403
+  statusText: Forbidden
+  headers:
+    - key: cross-origin-opener-policy
+      value: same-origin
+    - key: cross-origin-resource-policy
+      value: same-origin
+    - key: origin-agent-cluster
+      value: ?1
+    - key: referrer-policy
+      value: no-referrer
+    - key: strict-transport-security
+      value: max-age=31536000; includeSubDomains
+    - key: x-content-type-options
+      value: nosniff
+    - key: x-dns-prefetch-control
+      value: off
+    - key: x-download-options
+      value: noopen
+    - key: x-frame-options
+      value: SAMEORIGIN
+    - key: x-permitted-cross-domain-policies
+      value: none
+    - key: x-xss-protection
+      value: "0"
+    - key: x-ratelimit-limit
+      value: "10"
+    - key: x-ratelimit-remaining
+      value: "9"
+    - key: x-ratelimit-reset
+      value: "6"
+    - key: content-type
+      value: application/json; charset=utf-8
+    - key: content-length
+      value: "64"
+    - key: etag
+      value: W/"40-pB9lIcWuUaMI1BZkCoV3ulnw7Ok"
+    - key: date
+      value: Sat, 25 Apr 2026 04:41:41 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+  body:
+    type: json
+    content: |-
+      {
+        "message": "Access denied",
+        "error": "Forbidden",
+        "statusCode": 403
+      }
+order: 4477011107362902
+name: Denied (Top up ke account lain)

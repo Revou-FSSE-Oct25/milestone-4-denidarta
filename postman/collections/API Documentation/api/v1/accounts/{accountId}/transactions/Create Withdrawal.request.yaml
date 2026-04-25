@@ -1,0 +1,19 @@
+$kind: http-request
+url: "{{baseurl}}/api/v1/accounts/{{accountId}}/transactions"
+method: POST
+headers:
+  Idempotency-Key: extremely-random
+body:
+  type: json
+  content: |2-
+      {                                                                                                                     
+        "amount": "100.00",
+        "type": "DEPOSIT",                                                                                                  
+        "description": "Depo Depo"
+      }        
+auth:
+  credentials:
+    token: "{{bearertoken}}"
+  type: bearer
+examples: .resources/Create Withdrawal.resources/examples
+order: 601

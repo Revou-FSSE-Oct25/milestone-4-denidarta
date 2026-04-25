@@ -1,4 +1,5 @@
 $kind: http-request
+name: Login and get access token
 url: "{{baseurl}}/api/v1/auth/login"
 method: POST
 headers:
@@ -11,7 +12,7 @@ body:
       "password": "Password@123"
     }
 scripts:
-  - type: beforeRequest
+  - type: afterResponse
     code: |-
       const token = pm.response.json().access_token;
       pm.environment.set("Admintoken", token);

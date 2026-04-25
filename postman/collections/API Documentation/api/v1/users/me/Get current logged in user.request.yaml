@@ -5,5 +5,5 @@ auth:
   type: bearer
   credentials:
     token: "{{bearerToken}}"
-examples: ./.resources/Get current logged in user.resources/examples
+examples: .resources/Get current logged in user.resources/examples
 order: 1000
