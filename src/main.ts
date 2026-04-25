@@ -3,11 +3,13 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import helmet from 'helmet';
+import morgan from 'morgan';
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
 
 	app.setGlobalPrefix('api/v1');
+	app.use(morgan('dev'));
 	app.use(
 		helmet({
 			contentSecurityPolicy: false,
