@@ -1,4 +1,5 @@
 import {
+	BadRequestException,
 	ForbiddenException,
 	Injectable,
 	NotFoundException,
@@ -20,9 +21,9 @@ export class AccountsService {
 	constructor(private accountsRepository: AccountsRepository) {}
 
 	async create(userId: number): Promise<AccountEntity> {
-		let accountNumber = Math.floor(1000000000 + Math.random() * 9000000000);
+		let accountNumber = BigInt(Math.floor(1000000000 + Math.random() * 9000000000));
 		while (await this.accountsRepository.findByNumber(accountNumber)) {
-			accountNumber = Math.floor(1000000000 + Math.random() * 9000000000);
+			accountNumber = BigInt(Math.floor(1000000000 + Math.random() * 9000000000));
 		}
 		return this.accountsRepository.create(accountNumber, userId);
 	}
@@ -59,10 +60,12 @@ export class AccountsService {
 		if (!account) throw new NotFoundException('Account not found');
 		if (role !== UserRole.ADMIN && account.userId !== userId)
 			throw new ForbiddenException('Access denied');
+		if (account.status === 'FROZEN')
+			throw new BadRequestException('Account is frozen');
 		return account;
 	}
 
-	async findByAccountNumber(accountNumber: number) {
+	async findByAccountNumber(accountNumber: bigint) {
 		const account = await this.accountsRepository.findByNumber(accountNumber);
 		if (!account) throw new NotFoundException('Account not found');
 		return account;

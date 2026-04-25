@@ -16,7 +16,7 @@ const selectedData = {
 export class AccountsRepository {
 	constructor(private prisma: PrismaService) {}
 
-	create(accountNumber: number, userId: number): Promise<AccountEntity> {
+	create(accountNumber: bigint, userId: number): Promise<AccountEntity> {
 		return this.prisma.account.create({
 			data: { accountNumber, userId },
 			select: selectedData,
@@ -62,7 +62,7 @@ export class AccountsRepository {
 	}
 
 	// get account info by account number
-	findByNumber(accountNumber: number) {
+	findByNumber(accountNumber: bigint) {
 		return this.prisma.account.findUnique({
 			where: { accountNumber },
 			select: {

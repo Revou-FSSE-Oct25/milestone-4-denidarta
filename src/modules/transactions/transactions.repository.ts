@@ -50,7 +50,7 @@ export class TransactionsRepository {
 	): Promise<TransactionEntity> {
 		return this.prisma.$transaction(async (tx) => {
 			const [account] = await tx.$queryRaw<{ balance: Prisma.Decimal }[]>`
-				SELECT balance FROM accounts WHERE id = ${accountId} FOR UPDATE
+				SELECT balance FROM "Account" WHERE id = ${accountId} FOR UPDATE
 			`;
 			if (
 				new Prisma.Decimal(account.balance).lt(new Prisma.Decimal(dto.amount))
@@ -83,7 +83,7 @@ export class TransactionsRepository {
 	): Promise<TransactionEntity> {
 		return this.prisma.$transaction(async (tx) => {
 			const [sourceAccount] = await tx.$queryRaw<{ balance: Prisma.Decimal }[]>`
-				SELECT balance FROM accounts WHERE id = ${sourceAccountId} FOR UPDATE
+				SELECT balance FROM "Account" WHERE id = ${sourceAccountId} FOR UPDATE
 			`;
 			if (
 				new Prisma.Decimal(sourceAccount.balance).lt(

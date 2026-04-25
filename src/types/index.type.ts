@@ -61,7 +61,7 @@ export interface UserWithAccounts extends UserEntity {
 
 export interface AccountEntity {
 	id: number;
-	accountNumber: number;
+	accountNumber: bigint;
 	status: AccountStatus;
 	balance: Prisma.Decimal;
 	createdAt: Date;

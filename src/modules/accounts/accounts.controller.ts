@@ -55,8 +55,8 @@ export class AccountsController {
 		summary:
 			'Lookup account by account number — returns account number and owner name',
 	})
-	findByNumber(@Param('accountNumber', ParseIntPipe) accountNumber: number) {
-		return this.accounts.findByAccountNumber(accountNumber);
+	findByNumber(@Param('accountNumber') accountNumber: string) {
+		return this.accounts.findByAccountNumber(BigInt(accountNumber));
 	}
 
 	@Get(':id')

@@ -33,6 +33,11 @@ async function bootstrap() {
 	const document = SwaggerModule.createDocument(app, config);
 	SwaggerModule.setup('/', app, document);
 
+	// BigInt is not serializable by default JSON.stringify
+	(BigInt.prototype as unknown as { toJSON: () => string }).toJSON = function () {
+		return this.toString();
+	};
+
 	await app.listen(process.env.PORT ?? 3000);
 }
 void bootstrap();
