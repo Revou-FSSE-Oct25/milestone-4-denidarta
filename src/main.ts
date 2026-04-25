@@ -1,5 +1,5 @@
-import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import { NestFactory, HttpAdapterHost } from '@nestjs/core';
+import { ValidationPipe, Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import helmet from 'helmet';
@@ -7,9 +7,14 @@ import morgan from 'morgan';
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
+	const logger = new Logger('HTTP');
 
 	app.setGlobalPrefix('api/v1');
-	app.use(morgan('dev'));
+	app.use(
+		morgan('dev', {
+			stream: { write: (message: string) => logger.log(message.trim()) },
+		})
+	);
 	app.use(
 		helmet({
 			contentSecurityPolicy: false,
